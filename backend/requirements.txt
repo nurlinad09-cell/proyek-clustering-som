@@ -1,3 +1,7 @@
 fastapi
 uvicorn
 supabase
+pandas
+numpy
+minisom
+geopy
