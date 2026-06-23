@@ -1,0 +1,10 @@
+# Mengabaikan folder sampah Python/Anaconda
+backend/__pycache__/
+backend/.env
+backend/env/
+backend/venv/
+
+# Mengabaikan folder sampah Next.js/Node.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
