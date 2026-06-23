@@ -31,14 +31,24 @@ export default function Dashboard() {
         <h1 className="text-2xl font-bold mb-6 text-blue-800">Monitoring Cluster</h1>
         <label className="block text-gray-700 font-semibold mb-2">Pilih Wilayah:</label>
         <select 
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded bg-white text-gray-800"
           value={wilayah} 
           onChange={(e) => setWilayah(e.target.value)}
         >
           <option value="Semua">Semua Wilayah</option>
-          <option value="Palu">Palu</option>
-          <option value="Donggala">Donggala</option>
-          {/* Tambahkan wilayah lain sesuai dataset */}
+          <option value="BANGGAI">BANGGAI</option>
+          <option value="BANGGAI KEPULAUAN">BANGGAI KEPULAUAN</option>
+          <option value="BANGGAI LAUT">BANGGAI LAUT</option>
+          <option value="BUOL">BUOL</option>
+          <option value="DONGGALA">DONGGALA</option>
+          <option value="KOTA PALU">KOTA PALU</option>
+          <option value="MOROWALI">MOROWALI</option>
+          <option value="MOROWALI UTARA">MOROWALI UTARA</option>
+          <option value="PARIGI MOUTONG">PARIGI MOUTONG</option>
+          <option value="POSO">POSO</option>
+          <option value="SIGI">SIGI</option>
+          <option value="TOJO UNA-UNA">TOJO UNA-UNA</option>
+          <option value="TOLI TOLI">TOLI TOLI</option>
         </select>
 
         <div className="mt-8">
