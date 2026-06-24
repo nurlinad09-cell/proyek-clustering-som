@@ -15,9 +15,11 @@ export default function Dashboard() {
   // Mengambil data dari Backend FastAPI
   useEffect(() => {
     const fetchData = async () => {
+      const baseUrl = 'https://nurlina-apiclusteringsom.hf.space'; 
+       // 🛠️ 2. Ubah variabel url agar menggunakan baseUrl di atas
       const url = wilayah === 'Semua' 
-        ? 'http://localhost:8000/api/points' 
-        : `http://localhost:8000/api/points?wilayah=${wilayah}`;
+      ? `${baseUrl}/api/cluster` 
+      : `${baseUrl}/api/cluster?wilayah=${wilayah}`;
       const res = await axios.get(url);
       setPoints(res.data.data);
     };

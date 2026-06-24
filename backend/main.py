@@ -23,15 +23,13 @@ app.add_middleware(
 )
 
 # 1. Inisialisasi Supabase Client dari Environment Variables Vercel
-SUPABASE_URL = os.getenv("https://sbzqjvavhsglqjvixlq.supabase.co")
-SUPABASE_KEY = os.getenv("sb_publishable_9DZfFMq_K0J3oliBq7EVvQ_woZN5pyF")
+# ... (kode impor library tetap sama) ...
 
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise RuntimeError("Environment Variables SUPABASE_URL dan SUPABASE_KEY belum diatur!")
+# 1. PERBAIKAN: Mengisi string secara langsung (Hardcode) jika tidak menggunakan Environment Variables
+SUPABASE_URL = "https://sbzqjvavhsglqjvixlq.supabase.co"
+SUPABASE_KEY = "sb_publishable_9DZfFMq_K0J3oliBq7EVvQ_woZN5pyF"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-# Nama tabel Supabase Anda
 NAMA_TABEL = "dataset_sims_sulteng" 
 
 @app.get("/")
@@ -41,18 +39,19 @@ def root():
 @app.get("/api/cluster")
 def get_som_clusters(city: str = Query(..., description="Nama kota/kabupaten di Sulteng, contoh: 'KOTA PALU'")):
     try:
-        # 2. Ambil data dari Supabase (Filter: Bukan Fixed Service dan Sesuai Kota yang dipilih)
-        response = supabase.table(NAMA_TABEL)\
-            .select("CLNT_NAME, SERVICE, FREQ, STN_NAME, SID_LONG, SID_LAT, CITY")\
-            .neq("SERVICE", "Fixed Service")\
-            .eq("CITY", city.upper())\
-            .execute()
+        # 2. PERBAIKAN LOGIKA: Jika kota = "SEMUA", ambil seluruh data tanpa filter kota
+        query = supabase.table(NAMA_TABEL).select("CLNT_NAME, SERVICE, FREQ, STN_NAME, SID_LONG, SID_LAT, CITY").neq("SERVICE", "Fixed Service")
+        
+        if city.upper() != "SEMUA":
+            query = query.eq("CITY", city.upper())
             
+        response = query.execute()
         data_rows = response.data
         
         if not data_rows or len(data_rows) == 0:
             raise HTTPException(status_code=404, detail=f"Tidak ada data stasiun ditemukan untuk wilayah {city}")
             
+        # ... (Sisa kode perhitungan SOM dan NMS ke bawah tetap sama persis seperti file asli Anda) ...            
         # 3. Konversi hasil query Supabase menjadi Pandas DataFrame
         df_filter = pd.DataFrame(data_rows)
         df_filter = df_filter.dropna(subset=['SID_LAT', 'SID_LONG'])
