@@ -17,10 +17,13 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         const baseUrl = 'https://nurlina-apiclusteringsom.hf.space'; 
+        
+        // Mengirim parameter wilayah dengan nama query 'city' sesuai backend
         const url = `${baseUrl}/api/cluster?city=${wilayah}`;
         
         const res = await axios.get(url);
         
+        // Mengambil data dari properti 'recommendations' hasil output backend
         if (res.data && res.data.recommendations) {
           setPoints(res.data.recommendations);
         } else {
@@ -69,6 +72,7 @@ export default function Dashboard() {
 
       {/* Konten Utama (Peta) */}
       <div className="w-3/4 relative">
+        {/* Komponen Peta yang menampilkan marker berdasarkan state 'points' */}
         <Map points={points} /> 
       </div>
     </div>
