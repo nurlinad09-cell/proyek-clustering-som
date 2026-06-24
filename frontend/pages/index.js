@@ -15,13 +15,21 @@ export default function Dashboard() {
   // Mengambil data dari Backend FastAPI
   useEffect(() => {
     const fetchData = async () => {
-      const baseUrl = 'https://nurlina-apiclusteringsom.hf.space'; 
-       // 🛠️ 2. Ubah variabel url agar menggunakan baseUrl di atas
-      const url = wilayah === 'Semua' 
-      ? `${baseUrl}/api/cluster` 
-      : `${baseUrl}/api/cluster?wilayah=${wilayah}`;
-      const res = await axios.get(url);
-      setPoints(res.data.data);
+      try {
+        const baseUrl = 'https://nurlina-apiclusteringsom.hf.space'; 
+        const url = `${baseUrl}/api/cluster?city=${wilayah}`;
+        
+        const res = await axios.get(url);
+        
+        if (res.data && res.data.recommendations) {
+          setPoints(res.data.recommendations);
+        } else {
+          setPoints([]);
+        }
+      } catch (error) {
+        console.error("Error fetching cluster data:", error);
+        setPoints([]);
+      }
     };
     fetchData();
   }, [wilayah]);
@@ -61,7 +69,6 @@ export default function Dashboard() {
 
       {/* Konten Utama (Peta) */}
       <div className="w-3/4 relative">
-        {/* Komponen Peta yang menampilkan marker berdasarkan state 'points' */}
         <Map points={points} /> 
       </div>
     </div>
